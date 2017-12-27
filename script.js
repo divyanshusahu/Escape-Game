@@ -2,17 +2,18 @@ var canvas;
 var canvasContext;
 const FRAMES = 20;
 const BALL_RADIUS = 8;
-var ballX = BALL_RADIUS + 10; // set ball at bottom initially
-var ballY = 150 - BALL_RADIUS; // canvas.height - BALL_RADIUS
+var ballX = BALL_RADIUS + 10; // set ball at middle initially
+var ballY = 150 - BALL_RADIUS; // canvas.height/2 - BALL_RADIUS
 const CONSTANT_GAP_VERTICAL = 60;
 const CONSTANT_GAP_HORIZONTAL = 200;
 const OBSTACLES_WIDTH = 20;
 var BALLSPEEDUP = 20;
-var BALLDOWNSPEED = 0;
+var BALLDOWNSPEED = 0;  // this defines gravity effect
 const OBSTACLES_SPEED = 5;
 var pos = 200;
 var a = [];
 var score = 0;
+var thisObstacle = 0;
 
 window.onload = function() {
     canvas = document.getElementById("game");
@@ -34,18 +35,10 @@ function obstaclesHeight() {
 
 a =  obstaclesHeight();
 
-function checkPass(x) {
-	if (ballY > x && ballY < (x + CONSTANT_GAP_VERTICAL)) {
-		return true;
+function hit(x) {
+	if ((ballY-8 < x || ballY+8 > (x + CONSTANT_GAP_VERTICAL)) && (pos%200 == 20 || pos%200 == -180)) {
+		console.log("HIT");
 	}
-	conole.log("no");
-	return false;
-}
-
-function currentObstacle(i) {
-	if (i < 200)
-		return true;
-	return false;
 }
 
 function drawObstacles(pos) {
@@ -53,10 +46,10 @@ function drawObstacles(pos) {
     let i = pos;
     let count = 0;
     while( i < canvas.width) {
-    	count++;
     	canvasContext.fillRect(i, 0, OBSTACLES_WIDTH, a[count]);
     	canvasContext.fillRect(i, a[count] + CONSTANT_GAP_VERTICAL, OBSTACLES_WIDTH, canvas.height - (a[count] + CONSTANT_GAP_VERTICAL));
     	i += CONSTANT_GAP_HORIZONTAL;
+    	count++;
     	if (count == 1000) {
     		count = 0;
     	}
@@ -78,8 +71,16 @@ function draw() {
     // **********************//
 
     moveBall();
-    pos -= OBSTACLES_SPEED;
+    if (pos%CONSTANT_GAP_HORIZONTAL ==0 && pos!= CONSTANT_GAP_HORIZONTAL) {
+    	thisObstacle++;
+    	if (thisObstacle == 1000){
+    		thisObstacle = 0;
+    	}
+    }
+    //console.log(thisObstacle);
+    hit(a[thisObstacle]);
     drawObstacles(pos);
+    pos -= OBSTACLES_SPEED;
 
 }
 
