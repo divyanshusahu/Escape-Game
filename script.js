@@ -1,6 +1,6 @@
 var canvas;
 var canvasContext;
-const FRAMES = 20;
+const FRAMES = 30;
 const BALL_RADIUS = 8;
 var ballX = BALL_RADIUS + 10; // set ball at middle initially
 var ballY = 150 - BALL_RADIUS; // canvas.height/2 - BALL_RADIUS
@@ -14,15 +14,26 @@ var pos = 200;
 var a = [];
 var score = 0;
 var thisObstacle = 0;
+var isHit = 0;
 
 window.onload = function() {
     canvas = document.getElementById("game");
     canvasContext = canvas.getContext('2d');
-    setInterval(callEverything, 1000 / FRAMES);
-}
-
-function callEverything() {
-    draw();
+    document.querySelector("#start").addEventListener("click", function(){
+    	var game = setInterval(function() {
+    		draw();
+    		if(isHit == 1) {
+    			clearInterval(game);
+    		}
+    	} , 1000/FRAMES);
+    	isHit = 0;
+    	thisObstacle = 0;
+    	score = 0;
+    	a =  obstaclesHeight();
+    	pos = 200;
+    	ballX = BALL_RADIUS + 10;
+		var ballY = 150 - BALL_RADIUS;
+    }, true);
 }
 
 function obstaclesHeight() {
@@ -33,11 +44,9 @@ function obstaclesHeight() {
 	return a;
 }
 
-a =  obstaclesHeight();
-
 function hit(x) {
 	if ((ballY-8 < x || ballY+8 > (x + CONSTANT_GAP_VERTICAL)) && (pos%200 == 20 || pos%200 == -180)) {
-		console.log("HIT");
+		isHit = 1;
 	}
 }
 
@@ -47,7 +56,7 @@ function drawObstacles(pos) {
     let count = 0;
     while( i < canvas.width) {
     	canvasContext.fillRect(i, 0, OBSTACLES_WIDTH, a[count]);
-    	canvasContext.fillRect(i, a[count] + CONSTANT_GAP_VERTICAL, OBSTACLES_WIDTH, canvas.height - (a[count] + CONSTANT_GAP_VERTICAL));
+    	canvasContext.fillRect(i, a[count]+CONSTANT_GAP_VERTICAL, OBSTACLES_WIDTH, canvas.height -(a[count]+CONSTANT_GAP_VERTICAL));
     	i += CONSTANT_GAP_HORIZONTAL;
     	count++;
     	if (count == 1000) {
@@ -81,6 +90,7 @@ function draw() {
     hit(a[thisObstacle]);
     drawObstacles(pos);
     pos -= OBSTACLES_SPEED;
+    document.querySelector("#score").innerHTML = "Score: " + thisObstacle;
 
 }
 
