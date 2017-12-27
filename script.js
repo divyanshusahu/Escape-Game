@@ -36,13 +36,13 @@ obstaclesHeight();
 
 function drawObstacles(pos) {
     canvasContext.fillStyle = '#4caf50';
-    canvasContext.fillRect(pos, 0, OBSTACLES_WIDTH, a[0]);
-    canvasContext.fillRect(pos, a[0] + CONSTANT_GAP_VERTICAL, OBSTACLES_WIDTH, canvas.height - (a[0] + CONSTANT_GAP_VERTICAL));
     let i = pos;
     while( i < canvas.width) {
+    	canvasContext.fillRect(i, 0, OBSTACLES_WIDTH, a[0]);
+    	canvasContext.fillRect(i, a[0] + CONSTANT_GAP_VERTICAL, OBSTACLES_WIDTH, canvas.height - (a[0] + CONSTANT_GAP_VERTICAL));
     	i += CONSTANT_GAP_HORIZONTAL;
-    	canvasContext.fillRect(i, 0, OBSTACLES_WIDTH, 100);
-    	canvasContext.fillRect(i, 100 + CONSTANT_GAP_VERTICAL, OBSTACLES_WIDTH, canvas.height - 120);
+    	//canvasContext.fillRect(i, 0, OBSTACLES_WIDTH, 100);
+    	//canvasContext.fillRect(i, 100 + CONSTANT_GAP_VERTICAL, OBSTACLES_WIDTH, canvas.height - 150);
     	//canvasContext.fillRect(i + 2*CONSTANT_GAP_HORIZONTAL, 0, OBSTACLES_WIDTH, 100);
     	//canvasContext.fillRect(i + 2*CONSTANT_GAP_HORIZONTAL, 100 + CONSTANT_GAP_VERTICAL, OBSTACLES_WIDTH, canvas.height - 150);
     	//canvasContext.fillRect(i + 3*CONSTANT_GAP_HORIZONTAL, 0, OBSTACLES_WIDTH, 100);
