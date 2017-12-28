@@ -45,6 +45,21 @@ window.onload = function() {
     }, true);
 }
 
+function enableGravity() {
+    let gravityButton = document.querySelector("#gravity");
+    gravityButton.addEventListener("click", function() {
+        if (BALLDOWNSPEED == 0) {
+            BALLDOWNSPEED = 2;
+            gravityButton.innerHTML = "Disable Gravity";
+        }
+        else if (BALLDOWNSPEED == 2) {
+            BALLDOWNSPEED = 0;
+            gravityButton.innerHTML = "Enable Gravity";
+        }
+    });
+}
+enableGravity();
+
 function obstaclesHeight() {
 	let a = [];
 	for (let i=0;i<1000;i++) {
