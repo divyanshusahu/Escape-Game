@@ -10,7 +10,8 @@ const OBSTACLES_WIDTH = 20;
 var BALLSPEEDUP = 20;
 var BALLDOWNSPEED = 0;  // this defines gravity effect
 const OBSTACLES_SPEED = 5;
-var pos = 200;
+var initial_pos = 400;
+var current_pos = initial_pos;
 var a = [];
 var score = 0;
 var thisObstacle = 0;
@@ -30,9 +31,10 @@ window.onload = function() {
     	thisObstacle = 0;
     	score = 0;
     	a =  obstaclesHeight();
-    	pos = 200;
+    	initial_pos = 400;
+        current_pos = initial_pos;
     	ballX = BALL_RADIUS + 10;
-		var ballY = 150 - BALL_RADIUS;
+		ballY = 150 - BALL_RADIUS;
     }, true);
 }
 
@@ -45,7 +47,7 @@ function obstaclesHeight() {
 }
 
 function hit(x) {
-	if ((ballY-8 < x || ballY+8 > (x + CONSTANT_GAP_VERTICAL)) && (pos%200 == 20 || pos%200 == -180)) {
+	if ((ballY-8 < x || ballY+8 > (x+CONSTANT_GAP_VERTICAL)) && ((current_pos%200 == 20 || current_pos%200 == -180) && current_pos<=20)){
 		isHit = 1;
 	}
 }
@@ -80,7 +82,7 @@ function draw() {
     // **********************//
 
     moveBall();
-    if (pos%CONSTANT_GAP_HORIZONTAL ==0 && pos!= CONSTANT_GAP_HORIZONTAL) {
+    if ((current_pos % CONSTANT_GAP_HORIZONTAL == 0 && current_pos != initial_pos) && (current_pos <= 0)) {
     	thisObstacle++;
     	if (thisObstacle == 1000){
     		thisObstacle = 0;
@@ -88,8 +90,8 @@ function draw() {
     }
     //console.log(thisObstacle);
     hit(a[thisObstacle]);
-    drawObstacles(pos);
-    pos -= OBSTACLES_SPEED;
+    drawObstacles(current_pos);
+    current_pos -= OBSTACLES_SPEED;
     document.querySelector("#score").innerHTML = "Score: " + thisObstacle;
 
 }
