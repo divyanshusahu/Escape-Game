@@ -16,25 +16,32 @@ var a = [];
 var score = 0;
 var thisObstacle = 0;
 var isHit = 0;
+var gameProgress = 0;
 
 window.onload = function() {
     canvas = document.getElementById("game");
     canvasContext = canvas.getContext('2d');
     document.querySelector("#start").addEventListener("click", function(){
-    	var game = setInterval(function() {
-    		draw();
-    		if(isHit == 1) {
-    			clearInterval(game);
-    		}
-    	} , 1000/FRAMES);
-    	isHit = 0;
-    	thisObstacle = 0;
-    	score = 0;
-    	a =  obstaclesHeight();
-    	initial_pos = 400;
-        current_pos = initial_pos;
-    	ballX = BALL_RADIUS + 10;
-		ballY = 150 - BALL_RADIUS;
+        if (gameProgress == 0) {
+            var game = setInterval(function() {
+                draw();
+                if(isHit == 1) {
+                    clearInterval(game);
+                    gameProgress = 0;
+                }
+            } , 1000/FRAMES);
+        }
+        if (gameProgress == 0) {
+            isHit = 0;
+            thisObstacle = 0;
+            score = 0;
+            a =  obstaclesHeight();
+            initial_pos = 400;
+            current_pos = initial_pos;
+            ballX = BALL_RADIUS + 10;
+            ballY = 150 - BALL_RADIUS; 
+        }
+        gameProgress = 1;
     }, true);
 }
 
